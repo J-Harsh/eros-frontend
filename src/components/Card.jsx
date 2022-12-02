@@ -7,23 +7,24 @@ import axios from "axios"
 const Container=styled.div`
 
 width: ${(props) => props.type === "sm" ? "100%": "280px"};
-margin-bottom: ${(props) => (props.type === "sm" ? "20px" : "22px")};
-margin-top: ${(props) => (props.type === "sm" ? "20px" : "22px")};
+height: ${(props) => props.type ==="sm" ? "auto":"100%"};
+padding-bottom: ${(props) => (props.type === "sm" ? "20px" : "14px")};
+padding-top: ${(props) => (props.type === "sm" ? "12px" : "14px")};
 cursor: pointer;
 display: ${(props) => props.type === "sm" && "flex"};
 gap:12px;
-margin-right: ${(props) => (props.type === "sm" ? "20px" : "12px")};
 `;
 
 const Image=styled.img`
-width: ${(props) => (props.type === "sm" ? "60%" : "100%")};
-height: ${(props) => (props.type === "sm" ? "100%" : "160px")};
+flex:1;
+width: ${(props) => (props.type === "sm" ? "100%" : "100%")};
+height: ${(props) => (props.type === "sm" ? "100px" : "160px")};
 background-color: #999;
-
 border-radius: 12px;
 `;
 
 const Details=styled.div`
+flex: 1;
 display: flex;
 margin-top: ${(props) => props.type !== "sm" && "6px"};
 gap:12px;

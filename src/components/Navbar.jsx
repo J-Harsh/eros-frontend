@@ -12,6 +12,7 @@ import Upload from "./Upload";
 import { logout } from "../redux/userSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "../fireabase";
+import {toast, Slide } from "react-toastify";
 
 const Container = styled.div`
   position: sticky;
@@ -156,8 +157,29 @@ const User = ({ currentUser }) => {
       if (currentUser.fromGoogle) signOut(auth);
       const res = await axios.post("/auth/signout");
       dispatch(logout());
+      toast.success("Logged Out Successfully", {
+        position: "bottom-center",
+        transition: Slide,
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     } catch (err) {
-      console.log(err);
+      toast.error(err.response.data.message, {
+        position: "bottom-center",
+        transition: Slide,
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     }
   };
 

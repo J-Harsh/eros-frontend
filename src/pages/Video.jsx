@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, {useTheme} from "styled-components";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-
 import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import PlaylistAddOutlinedIcon from "@mui/icons-material/PlaylistAddOutlined";
-import Card from "../components/Card";
 import Comments from "../components/Comments";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,10 +16,10 @@ import { subscription } from "../redux/userSlice";
 import Share from "../components/Share";
 import Recommendations from "../components/Recommendations";
 import { Rings } from "react-loader-spinner";
+import { toast,Slide } from "react-toastify";
 
 const Container = styled.div`
   display: flex;
-  gap: 24px;
   justify-content: space-evenly;
 `;
 
@@ -134,6 +132,11 @@ const Video = () => {
   const [shareModal, setshareModal] = useState(false);
 
   useEffect(() => {
+    if (shareModal) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "unset";
+  }, [shareModal]);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         dispatch(fetchStart());
@@ -148,7 +151,6 @@ const Video = () => {
       } catch (error) {
         console.log("error is " + error);
       }
-      
     };
     fetchData();
   }, [videoId]);
@@ -160,19 +162,84 @@ const Video = () => {
   }
 
   const handleLike = async () => {
+    try {
+      
     await axios.put(`/user/like/${currentVideo?._id}`);
     dispatch(like(currentUser?._id));
+    toast.info("Liked Successfully", {
+      position: "bottom-center",
+      transition: Slide,
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
+    } catch (error) {
+      toast.error(error.response.data.message, {
+        position: "bottom-center",
+        transition: Slide,
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+    }
   };
 
   const handleDislike = async () => {
-    await axios.put(`/user/dislike/${currentVideo?._id}`);
+
+    try {
+      await axios.put(`/user/dislike/${currentVideo?._id}`);
     dispatch(dislike(currentUser?._id));
+    toast.info("Disliked Successfully", {
+      position: "bottom-center",
+      transition: Slide,
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
+    } catch (error) {
+      toast.error(error.response.data.message, {
+        position: "bottom-center",
+        transition: Slide,
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+    }
+    
   };
 
   const handleSubscription = async () => {
     currentUser?.subscribedChannels?.includes(channel._id)
       ? await axios.put(`/user/unsub/${channel._id}`)
       : await axios.put(`/user/sub/${channel._id}`);
+
+      toast.success(currentUser?.subscribedChannels?.includes(channel._id)?"Unsubscribed Successfully":"Subscribed Successfully", {
+        position: "bottom-center",
+        transition: Slide,
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     dispatch(subscription(channel._id));
   };
 
@@ -243,11 +310,11 @@ const Video = () => {
                   <Description>{currentVideo?.desc}</Description>
                 </ChannelDetail>
               </ChannelInfo>
-              <Subscribe onClick={handleSubscription}>
+              {currentUser && <Subscribe onClick={handleSubscription}>
                 {currentUser?.subscribedChannels?.includes(channel._id)
                   ? "SUBSCRIBED"
                   : "SUBSCRIBE"}
-              </Subscribe>
+              </Subscribe>}
             </Channel>
             <Hr />
             {currentUser && <Comments videoId={currentVideo?._id} />}

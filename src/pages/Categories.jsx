@@ -2,38 +2,37 @@ import React ,{ useEffect, useState } from 'react'
 import styled from "styled-components"
 import Card from '../components/Card';
 import axios from "axios"
-import Categories from '../components/CategoriesTab';
-import { useDispatch } from 'react-redux';
-import {reset } from "../redux/videoSlice";
+import CategoriesTab from '../components/CategoriesTab';
+import { useParams } from 'react-router-dom';
 
 const Container=styled.div`
 display: flex;
 justify-content: space-between;
 flex-wrap:wrap;
-padding: 52px 30px 0px 30px;
+padding: 86px 60px 0px 60px;
 `;
 
-const Home = ({type}) => {
+const Categories = () => {
 
-  const dispatch=useDispatch();
-
-
+  const { tags } = useParams();
+  
   const [video, setVideos] = useState([]);
+
+
   useEffect(() => {
-    const fetchVideos=async()=>{
-      const res=await axios.get(`/videos/${type}`)
-      setVideos(res.data)
-    }
-    dispatch(reset())
+    const fetchVideos = async () => {
+      const res = await axios.get(`/videos/tags?tags=${tags}`);
+      setVideos(res.data);
+    };
     fetchVideos();
-  }, [type,dispatch])
+  }, [tags]);
 
   
 
 
   return (
     <>
-    <Categories/>
+    <CategoriesTab/>
     <Container>
       {
         video.map((item)=>{
@@ -46,4 +45,4 @@ const Home = ({type}) => {
 }
 
 
-export default Home
+export default Categories

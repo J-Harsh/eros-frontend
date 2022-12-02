@@ -14,6 +14,7 @@ import {
 } from "react-share";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ClearIcon from '@mui/icons-material/Clear';
+import { Slide, toast } from "react-toastify";
 
 const Container = styled.div`
   width: 100%;
@@ -51,29 +52,41 @@ display:flex;
 align-items:center;
 `;
 
-const Share = ({ shareModal, setshareModal }) => {
+const Share = ({  setshareModal }) => {
   const url = window.location.href;
   const IconStyles = { borderRadius: "50%", transform: "scale(0.65)" };
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+  
+
   const handleCopy=()=>{
     navigator.clipboard.writeText(url);
-    alert("Url Copied Successfully")
+    toast.info("Url Copied Successfully", {
+      position: "bottom-center",
+      transition: Slide,
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
   }
 
-  useEffect(() => {
-    if (shareModal) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "unset";
-  }, [shareModal]);
+
 
   return (
     <Container>
       <Wrapper>
         <Heading>
           <p>Share via</p>
-          <ClearIcon onClick={()=>{setshareModal(false)}}/>
+          <ClearIcon style={{cursor:"pointer"}} onClick={()=>{setshareModal(false)}}/>
         </Heading>
         <IconContainer >
-          <ContentCopyIcon style={{color:"white",margin:"8px",transform:"scale(1.4)"}}  onClick={handleCopy} />
+          <ContentCopyIcon style={{color:"white",margin:"8px",transform:"scale(1.4)",cursor:"pointer"}}  onClick={handleCopy} />
         <FacebookShareButton url={url} >
           <FacebookIcon style={IconStyles}/>
         </FacebookShareButton>

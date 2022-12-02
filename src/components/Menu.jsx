@@ -17,7 +17,7 @@ import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Container = styled.div`
@@ -60,15 +60,15 @@ const Img = styled.img`
 const Item = styled.div`
   font-size: 14px;
   display: flex;
-  padding: 6px 0px;
+  padding: 6px 12px;
   align-items: center;
   width: auto;
-  justify-content: space-evenly;
-  margin: 0px 32px;
+  margin: 0px 20px;
   gap: 32px;
 
   cursor: pointer;
   :hover {
+    border-radius: 8px;
     background: ${({ theme }) => theme.soft};
   }
 `;
@@ -83,7 +83,7 @@ const Login = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 10px 0px 10px 28px;
+  margin: 8px 0px 8px 28px;
 `;
 
 const Button = styled.button`
@@ -93,7 +93,7 @@ const Button = styled.button`
   color: #3ea6ff;
   border-radius: 3px;
   font-weight: 500;
-  margin-top: 10px;
+  margin-top: 4px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -112,6 +112,12 @@ const Title = styled.h2`
 const Menu = ({ setShowSideBar, darkMode, setDarkMode }) => {
 
   const {currentUser}=useSelector(state=>state.user)
+  const navigate=useNavigate();
+
+  const handleCategoryNav=(e)=>{
+    navigate(`/category/${(e.target.innerText).toLowerCase()}`)
+  }
+
 
   return (
     <Container>
@@ -170,23 +176,35 @@ const Menu = ({ setShowSideBar, darkMode, setDarkMode }) => {
         </Login>
         <Hr /></>}
         <Title>CATEGORIES</Title>
-        <Item>
-          <LibraryMusicOutlinedIcon />
-          <p style={{ textAlign: "left", width: "100%" }}>Music</p>
-        </Item>
-        <Item>
+
+
+
+
+          <Item onClick={(e)=>handleCategoryNav(e)}>
+            <LibraryMusicOutlinedIcon />
+            <p style={{ textAlign: "left", width: "100%" }}>Music</p>
+          </Item>
+        
+
+
+
+
+        <Item onClick={(e)=>handleCategoryNav(e)}>
+
+
+
           <SportsBasketballOutlinedIcon />
           <p style={{ textAlign: "left", width: "100%" }}>Sports</p>
         </Item>
-        <Item>
+        <Item onClick={(e)=>handleCategoryNav(e)}>
           <SportsEsportsOutlinedIcon />
           <p style={{ textAlign: "left", width: "100%" }}>Gaming</p>
         </Item>
-        <Item>
+        <Item onClick={(e)=>handleCategoryNav(e)}>
           <MovieOutlinedIcon />
           <p style={{ textAlign: "left", width: "100%" }}>Movies</p>
         </Item>
-        <Item>
+        <Item onClick={(e)=>handleCategoryNav(e)}>
           <ArticleOutlinedIcon />
           <p style={{ textAlign: "left", width: "100%" }}>News</p>
         </Item>

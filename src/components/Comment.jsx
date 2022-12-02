@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector } from 'react-redux';
+import { Slide, toast } from 'react-toastify';
 
 const Container=styled.div`
 display: flex;
@@ -72,11 +73,33 @@ const Comment = ({comments,setComments,comment}) => {
   const deleteComment=async()=>{
     try { 
     const res=await axios.delete(`/comments/${comment._id}`);
-    
     const newList=comments.filter((a)=>a._id!==comment._id);
     setComments(newList)
+    
+      toast.success("Comment Deleted Successfully", {
+        position: "bottom-center",
+        transition: Slide,
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+
     } catch (error) {
-      console.log(error);
+      toast.error(error, {
+        position: "bottom-center",
+        transition: Slide,
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     }
   }
 
