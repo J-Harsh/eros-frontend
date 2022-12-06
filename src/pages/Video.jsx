@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled, {useTheme} from "styled-components";
+import styled from "styled-components";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
