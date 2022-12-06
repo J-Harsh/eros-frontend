@@ -50,6 +50,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+<<<<<<< HEAD
   },
   "proxy": "http://localhost:8800/api/"
+=======
+  }
+>>>>>>> 281f2fdb86268f373de30afaab58521fb65ec441
 }
